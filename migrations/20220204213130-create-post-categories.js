@@ -9,10 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       postId: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       categoryId: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
     }, {
       timestamps: false
