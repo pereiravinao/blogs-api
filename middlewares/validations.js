@@ -16,4 +16,15 @@ const schema = Joi.object({
   image: Joi.string().allow(),
 });
 
-module.exports = schema;
+const sechemaLogin = Joi.object({
+  email: Joi.string()
+  .email()
+  .$.min(1).rule({ message: '"email" is not allowed to be empty' })
+  .required({ message: '"email" is required' }),
+
+  password: Joi.string()
+      .required({ message: '"password" is required' })
+      .$.min(1).rule({ message: '"password" is not allowed to be empty' }),
+});
+
+module.exports = { schema, sechemaLogin };
