@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const { schema } = require('../middlewares/validations');
+const auth = require('../middlewares/auth');
 
 const create = async (object) => {
     const value = await schema.validate(object);
@@ -13,8 +14,12 @@ const create = async (object) => {
     return userCreated.dataValues;
 };
 
-const find = async (auth) => {
-  if (!auth) { return { code: 401, message: 'Token not found' }; }
+const find = async (token) => {
+  if (!token) { return { code: 401, message: 'Token not found' }; }
+
+  const response = auth.verify(token);
+  if (response.code === '401') { return { code: 401, message: 'Expired or invalid token' }; }
+
   const users = await User.findAll({
     attributes: { exclude: ['password'] } });
   const newUsers = users.map((Users) => Users.dataValues);

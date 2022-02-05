@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
   if (getUsers.code) { 
     return res.status(getUsers.code).json({ message: getUsers.message }); 
 }
-console.log(getUsers);
   res.status(200).json(getUsers);
 });
 
