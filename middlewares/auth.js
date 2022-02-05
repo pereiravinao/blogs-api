@@ -23,7 +23,17 @@ const verify = (token) => {
   }
 };
 
+const authentication = (token) => {
+  if (!token) { return { code: 401, message: 'Token not found' }; }
+
+  const response = verify(token);
+  if (response.code === '401') { return { code: 401, message: 'Expired or invalid token' }; }
+
+  return true;
+};
+
 module.exports = {
   create,
   verify,
+  authentication,
 };
