@@ -22,7 +22,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const getUsers = await UserService.findById(id);
+  const { authorization } = req.headers;
+  const getUsers = await UserService.findById(id, authorization);
   if (getUsers.code) { 
     return res.status(getUsers.code).json({ message: getUsers.message }); 
 }
