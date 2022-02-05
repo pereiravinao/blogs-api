@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const schema = require('../middlewares/validations');
+const { schema } = require('../middlewares/validations');
 
 const create = async (object) => {
     const value = await schema.validate(object);
