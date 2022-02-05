@@ -20,4 +20,13 @@ router.get('/', async (req, res) => {
   res.status(200).json(getUsers);
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const getUsers = await UserService.findById(id);
+  if (getUsers.code) { 
+    return res.status(getUsers.code).json({ message: getUsers.message }); 
+}
+  res.status(200).json(getUsers);
+});
+
   module.exports = router;
