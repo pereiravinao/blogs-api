@@ -27,4 +27,15 @@ const sechemaLogin = Joi.object({
       .$.min(1).rule({ message: '"password" is not allowed to be empty' }),
 });
 
-module.exports = { schema, sechemaLogin };
+const schemaPost = Joi.object({
+  title: Joi.string()
+    .required({ message: '"title" is required' }),
+
+  content: Joi.string()
+    .required({ message: '"content" is required' }),
+
+  categoryIds: Joi.string()
+  .required({ message: '"categoryIds" is required' }),
+});
+
+module.exports = { schema, sechemaLogin, schemaPost };
