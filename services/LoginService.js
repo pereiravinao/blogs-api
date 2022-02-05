@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { sechemaLogin } = require('../middlewares/validations');
+const auth = require('../middlewares/auth');
 
 const verify = async (email, password) => {
   const response = sechemaLogin.validate({ email, password });
@@ -8,19 +8,10 @@ const verify = async (email, password) => {
     const messageError = response.error.details[0].message;
     return { code: 400, message: messageError }; 
   }
-
   const verifyEmail = await User.findOne({ where: { email } });
-  if (!verifyEmail) { 
-    return { code: 400, message: 'Invalid fields' }; 
-  }
-
-  const secretJwt = process.env.JWT_SECRET;
-  const jwtConfig = {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  };
-  const token = jwt.sign({ data: email }, secretJwt, jwtConfig);
-
+  if (!verifyEmail) { return { code: 400, message: 'Invalid fields' }; }
+  
+  const token = auth.create(email);
   return token;
 };
 
