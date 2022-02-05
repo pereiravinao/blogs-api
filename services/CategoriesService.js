@@ -7,7 +7,9 @@ const create = async ({ body, headers }) => {
 
   if (!body.name) { return { code: 400, message: '"name" is required' }; }
 
-  return body.name;
+  Categories.create(body.name);
+
+  return body;
 };
 
 module.exports = {
