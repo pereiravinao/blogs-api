@@ -13,8 +13,10 @@ const create = async (object) => {
     return userCreated.dataValues;
 };
 
-const find = async () => {
-  const users = await User.findAll();
+const find = async (auth) => {
+  if (!auth) { return { code: 401, message: 'Token not found' }; }
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] } });
   const newUsers = users.map((Users) => Users.dataValues);
   return newUsers;
 };
