@@ -11,4 +11,14 @@ router.post('/', async (req, res) => {
   res.status(201).json(userCreated);
 });
 
+router.get('/', async (req, res) => {
+  const { authorization } = req.headers;
+  const getUsers = await UserService.find(authorization);
+  if (getUsers.code) { 
+    return res.status(getUsers.code).json({ message: getUsers.message }); 
+}
+console.log(getUsers);
+  res.status(200).json(getUsers);
+});
+
   module.exports = router;
