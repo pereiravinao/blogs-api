@@ -15,10 +15,8 @@ const create = async (object) => {
 };
 
 const find = async (token) => {
-  if (!token) { return { code: 401, message: 'Token not found' }; }
-
-  const response = auth.verify(token);
-  if (response.code === '401') { return { code: 401, message: 'Expired or invalid token' }; }
+  const authorized = auth.authentication(token);
+  if (authorized.code) { return authorized; }
 
   const users = await User.findAll({
     attributes: { exclude: ['password'] } });
@@ -26,7 +24,17 @@ const find = async (token) => {
   return newUsers;
 };
 
+const findById = async (id, token) => {
+  const authorized = auth.authentication(token);
+  if (authorized.code) { return authorized; }
+  
+  const user = await User.findByPk(id);
+  if (!user) { return { code: 404, message: 'User does not exist' }; }
+  return user;
+};
+
 module.exports = { 
   create,
   find,
+  findById,
 };
