@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const secretJwt = process.env.JWT_SECRET;
-// const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imxld2lzaGFtaWx0b25AZ21haWwuY29tIiwiaWF0IjoxNjQ0MDg1OTg5LCJleHAiOjE2NDQwODU5OTF9.pt828I1atcvINTkxN3ynhEqWdy7aWuNktzUpDjpP03E';
+
 const create = (email) => {
   const jwtConfig = {
     expiresIn: '2h',
