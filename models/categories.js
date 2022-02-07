@@ -6,5 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
+  Categories.findAllClean = () => 
+  Categories.findAll().then((category) => 
+  category.map((e) => e.dataValues));
+
   return Categories;
 };

@@ -16,10 +16,9 @@ const findAll = async ({ headers }) => {
   const authorized = auth.authentication(headers.authorization);
   if (authorized.code) { return authorized; }
 
-  const categories = await Categories.findAll();
-  const newCategories = categories.map((e) => e.dataValues);
+  const categories = await Categories.findAllClean();
 
-  return newCategories;
+  return categories;
 };
 
 module.exports = {

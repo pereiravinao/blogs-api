@@ -20,6 +20,7 @@ const create = async ({ body, headers }) => {
     content: body.content,
     published: Date.now(),
     updated: Date.now(), 
+    userId: 2,
   });
 
   return body;
