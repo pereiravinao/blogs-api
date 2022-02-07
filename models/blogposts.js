@@ -10,5 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
+  BlogPosts.associate = (models) => {
+    BlogPosts.belongsTo(models.Users, { foreignKey: 'id', as: 'user' });
+    BlogPosts.belongsTo(models.Categories, { foreignKey: 'id', as: 'categories' });
+};
+
+  BlogPosts.findAllClean = () => 
+    BlogPosts.findAll().then((post) => post.map((e) => e.dataValues));
+
   return BlogPosts;
 };

@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
   timestamps: false,
 });
 
+  Users.associate = (models) => {
+    Users.belongsTo(models.BlogPosts, { foreignKey: 'id', as: 'user' });
+};
+
   Users.findAllClean = () => Users
     .findAll({ attributes: { exclude: ['password'] } })
     .then((user) => user.map((e) => e.dataValues));

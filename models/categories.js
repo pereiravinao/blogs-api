@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
+  Categories.associate = (models) => {
+    Categories.belongsTo(models.BlogPosts, { foreignKey: 'id', as: 'categories' });
+};
+
   Categories.findAllClean = () => 
     Categories.findAll().then((category) => 
       category.map((e) => e.dataValues));
