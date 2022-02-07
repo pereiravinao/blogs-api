@@ -38,4 +38,13 @@ const schemaPost = Joi.object({
   .required({ message: '"categoryIds" is required' }),
 });
 
-module.exports = { schema, sechemaLogin, schemaPost };
+const schemaPostUpdate = Joi.object({
+  title: Joi.string()
+    .required({ message: '"title" is required' }),
+
+  content: Joi.string()
+    .required({ message: '"content" is required' }),
+
+});
+
+module.exports = { schema, sechemaLogin, schemaPost, schemaPostUpdate };
