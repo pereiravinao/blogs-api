@@ -41,7 +41,26 @@ const listAll = async ({ headers }) => {
   return newReturn;
 };
 
+const getById = async ({ headers, params }) => {
+  const { id } = params;
+  const authorized = auth.authentication(headers.authorization);
+  if (authorized.code) { return authorized; }
+  const allCategories = await Categories.findAll();
+
+  const allPosts = await BlogPosts.findOne({
+    where: { id },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+    ],
+  });
+  if (!allPosts) { return { code: 404, message: 'Post does not exist' }; }
+
+  const newReturn = { ...allPosts.dataValues, categories: allCategories };
+  return newReturn;
+};
+
 module.exports = {
   create,
   listAll,
+  getById,
 };
