@@ -12,9 +12,11 @@ const Users = userModelBuilder(sequelize, DataTypes);
 const Categories = categoriesModelBuilder(sequelize, DataTypes);
 const BlogPosts = BlogPostsModelBuilder(sequelize, DataTypes);
 
-// Object.values(sequelize.models).forEach((model) => {
-//   model.associate(sequelize.models);
-// });
+Object.keys(sequelize.models).forEach(modelName => {
+  if (sequelize.models[modelName].associate) {
+    sequelize.models[modelName].associate(sequelize.models);
+  }
+});
 
 module.exports = {
    Users, 
