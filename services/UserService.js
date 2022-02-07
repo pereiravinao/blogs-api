@@ -18,10 +18,8 @@ const find = async (token) => {
   const authorized = auth.authentication(token);
   if (authorized.code) { return authorized; }
 
-  const users = await Users.findAll({
-    attributes: { exclude: ['password'] } });
-  const newUsers = users.map((User) => User.dataValues);
-  return newUsers;
+  const users = await Users.findAllClean();
+  return users;
 };
 
 const findById = async (id, token) => {
