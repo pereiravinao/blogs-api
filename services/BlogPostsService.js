@@ -1,4 +1,4 @@
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Users, Categories } = require('../models');
 const auth = require('../middlewares/auth');
 const { schemaPost } = require('../middlewares/validations');
 
@@ -26,6 +26,22 @@ const create = async ({ body, headers }) => {
   return newPost;
 };
 
+const listAll = async ({ headers }) => {
+  const authorized = auth.authentication(headers.authorization);
+  if (authorized.code) { return authorized; }
+  const allCategories = await Categories.findAll();
+
+  const allPosts = await BlogPosts.findAll({
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+    ],
+  });
+
+  const newReturn = allPosts.map((p) => ({ ...p.dataValues, categories: allCategories }));
+  return newReturn;
+};
+
 module.exports = {
   create,
+  listAll,
 };
