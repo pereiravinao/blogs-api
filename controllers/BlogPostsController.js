@@ -27,4 +27,12 @@ router.get('/', async (req, res) => {
   res.status(200).json(postCreated);
 });
 
+router.put('/:id', async (req, res) => {
+  const postCreated = await BlogPostsService.update(req);
+  if (postCreated.code) { 
+    return res.status(postCreated.code).json({ message: postCreated.message }); 
+}
+  res.status(200).json(postCreated);
+});
+
   module.exports = router;
