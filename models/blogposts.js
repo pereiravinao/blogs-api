@@ -1,8 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const BlogPosts = sequelize.define('BlogPosts', { 
-    title: DataTypes.STRING,
-    content: DataTypes.STRING,
-    userId: DataTypes.NUMBER,
+    title: DataTypes.TEXT,
+    content: DataTypes.TEXT,
+    userId: DataTypes.INTEGER,
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE,
   },
   {
     timestamps: false,
