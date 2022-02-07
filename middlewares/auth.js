@@ -29,7 +29,7 @@ const authentication = (token) => {
   const response = verify(token);
   if (response.code === '401') { return { code: 401, message: 'Expired or invalid token' }; }
 
-  return true;
+  return response.email;
 };
 
 module.exports = {
