@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Categories.findAllClean = () => 
-  Categories.findAll().then((category) => 
-  category.map((e) => e.dataValues));
+    Categories.findAll().then((category) => 
+      category.map((e) => e.dataValues));
 
   return Categories;
 };
