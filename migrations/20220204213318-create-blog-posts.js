@@ -14,9 +14,6 @@ module.exports = {
       content: {
         type: Sequelize.TEXT,
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
       published: {
         type: Sequelize.DATE
       },
