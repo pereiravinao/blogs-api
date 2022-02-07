@@ -34,7 +34,7 @@ const schemaPost = Joi.object({
   content: Joi.string()
     .required({ message: '"content" is required' }),
 
-  categoryIds: Joi.string()
+  categoryIds: Joi
   .required({ message: '"categoryIds" is required' }),
 });
 
