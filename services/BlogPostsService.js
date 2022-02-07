@@ -1,10 +1,12 @@
 const { BlogPosts, Users, Categories } = require('../models');
 const auth = require('../middlewares/auth');
-const { schemaPost } = require('../middlewares/validations');
+const { schemaPost, schemaPostUpdate } = require('../middlewares/validations');
 
 const create = async ({ body, headers }) => {
   const authorized = auth.authentication(headers.authorization);
   if (authorized.code) { return authorized; }
+
+  const userId = await Users.findOne({ where: { email: authorized } });
 
   const allCategories = await Categories.findAll();
   const newCategories = await allCategories.map(({ id }) => id);
@@ -20,7 +22,7 @@ const create = async ({ body, headers }) => {
     content: body.content,
     published: Date.now(),
     updated: Date.now(), 
-    userId: 1,
+    userId: userId.dataValues.id,
   });
 
   return newPost;
@@ -59,8 +61,32 @@ const getById = async ({ headers, params }) => {
   return newReturn;
 };
 
+const update = async ({ body, headers, params }) => {
+  const postById = await getById({ headers, params });
+  
+  const authorized = auth.authentication(headers.authorization);
+  if (authorized.code) { return authorized; }
+  
+  const isUser = await Users
+  .findOne({ attributes: ['id'], where: { email: authorized } });
+  
+  console.log('CATEGORIA : ', body.categoryIds);
+  
+  if (body.categoryIds) { return { code: 400, message: 'Categories cannot be edited' }; }
+  const response = schemaPostUpdate.validate(body);
+  if (response.error) { return { code: 400, message: response.error.details[0].message }; }
+
+  if (isUser.dataValues.id !== postById.userId) return { code: 401, message: 'Unauthorized user' };
+
+  postById.title = body.title;
+  postById.content = body.content;
+
+  return postById;
+};
+
 module.exports = {
   create,
   listAll,
   getById,
+  update,
 };
